@@ -1,27 +1,53 @@
 from tkinter import *
-from tkinter import ttk
 
-cor1 = "#3b3b3b" 
-cor2 = "#feffff" 
-cor3 = "#38576b" 
-cor4 = "#ECEFF1" 
-cor5 = "#FFAB40" 
+# ---------- PALETA "NOITE NEON" ----------
+COR_FUNDO = "#0d1117"      # fundo da janela
+COR_TELA = "#161b26"       # fundo do visor
+COR_TEXTO = "#e6edf3"      # texto principal
+COR_TEXTO_SUAVE = "#6e7a8a"
+
+COR_NUM = "#1c2333"        # botões numéricos
+COR_NUM_HOVER = "#273049"
+
+COR_FUNC = "#2a3350"       # C e %
+COR_FUNC_HOVER = "#36426a"
+
+COR_OP = "#00e5c3"         # operadores (verde-água neon)
+COR_OP_HOVER = "#5af5dc"
+COR_OP_TEXTO = "#0d1117"
+
+COR_IGUAL = "#ff4d8d"      # botão de igual (rosa neon)
+COR_IGUAL_HOVER = "#ff7aa9"
+
+FONTE_BOTAO = ("Segoe UI", 16, "bold")
+FONTE_VISOR = ("Consolas", 26, "bold")
 
 janela = Tk()
-janela.title("Calculadora")
-janela.geometry("235x310")
-janela.config(bg=cor1)
-frame_tela = Frame(janela, width=235, height=50, bg=cor3)
-frame_tela.grid(row=0, column=0)
+janela.title("Calculadora Neon")
+janela.geometry("320x470")
+janela.resizable(False, False)
+janela.config(bg=COR_FUNDO)
 
-frame_corpo = Frame(janela, width=235, height=268)
-frame_corpo.grid(row=1, column=0)
+# ---------- VISOR ----------
+frame_tela = Frame(janela, bg=COR_TELA, highlightthickness=2,
+                   highlightbackground=COR_OP, highlightcolor=COR_OP)
+frame_tela.pack(fill=X, padx=16, pady=(18, 10))
 
+titulo = Label(frame_tela, text="◆ CALC", font=("Segoe UI", 9, "bold"),
+               bg=COR_TELA, fg=COR_OP, anchor="w")
+titulo.pack(fill=X, padx=12, pady=(8, 0))
 
 todos_valores = ""
 apagar_result = False
 
+valor_texto = StringVar()
 
+app_label = Label(frame_tela, textvariable=valor_texto, anchor="e",
+                  justify=RIGHT, font=FONTE_VISOR, bg=COR_TELA, fg=COR_TEXTO,
+                  padx=12, height=2)
+app_label.pack(fill=X)
+
+# ---------- LÓGICA (inalterada) ----------
 def entrar_valores(event):
     global todos_valores, apagar_result
 
@@ -71,60 +97,55 @@ def resultado():
         apagar_result = False
 
 
+# ---------- BOTÕES ----------
+frame_corpo = Frame(janela, bg=COR_FUNDO)
+frame_corpo.pack(fill=BOTH, expand=True, padx=12, pady=(0, 14))
 
-valor_texto = StringVar()
-
-app_label = Label(frame_tela, textvariable=valor_texto, width=16,height=2, padx=7, relief=FLAT, anchor="e", justify=RIGHT,font=('Ivy 18 '), bg=cor3, fg=cor2)
-app_label.place(x=0, y=0)
-
-
-
-
-
-b_1 = Button(frame_corpo,command=lambda: limpar_valores() ,text="C", width=11, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_1.place(x=0, y=0)
-b_2 = Button(frame_corpo,command=lambda: entrar_valores("%") ,text="%", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_2.place(x=118, y=0)
-b_3 = Button(frame_corpo,command=lambda: entrar_valores("/"), text="/", width=5, height=2, bg=cor5,fg=cor2,  font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_3.place(x=177, y=0)
+for i in range(4):
+    frame_corpo.columnconfigure(i, weight=1, uniform="col")
+for i in range(5):
+    frame_corpo.rowconfigure(i, weight=1, uniform="lin")
 
 
-b_4 = Button(frame_corpo, command=lambda: entrar_valores("7"),  text="7", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_4.place(x=0, y=52)
-b_5 = Button(frame_corpo, command=lambda: entrar_valores("8"), text="8", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_5.place(x=59, y=52)
-b_6 = Button(frame_corpo, command=lambda: entrar_valores("9"), text="9", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_6.place(x=118, y=52)
-b_7 = Button(frame_corpo,command=lambda: entrar_valores("*"), text="*", width=5, height=2, bg=cor5,fg=cor2,  font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_7.place(x=177, y=52)
-
-b_8 = Button(frame_corpo, command=lambda: entrar_valores("4"), text="4", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_8.place(x=0, y=104)
-b_9 = Button(frame_corpo,command=lambda: entrar_valores("5"), text="5", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_9.place(x=59, y=104)
-b_10 = Button(frame_corpo, command=lambda: entrar_valores("6"), text="6", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_10.place(x=118, y=104)
-b_11 = Button(frame_corpo, command=lambda: entrar_valores("-"), text="-", width=5, height=2, bg=cor5,fg=cor2,  font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_11.place(x=177, y=104)
-
-b_12 = Button(frame_corpo, command=lambda: entrar_valores("1"), text="1", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_12.place(x=0, y=156)
-b_13 = Button(frame_corpo, command=lambda: entrar_valores("2"), text="2", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_13.place(x=59, y=156)
-b_14 = Button(frame_corpo,command=lambda: entrar_valores("3"), text="3", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_14.place(x=118, y=156)
-b_15 = Button(frame_corpo,command=lambda: entrar_valores("+"), text="+", width=5, height=2, bg=cor5,fg=cor2,  font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_15.place(x=177, y=156)
-
-b_16 = Button(frame_corpo,command=lambda: entrar_valores("0"), text="0", width=11, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_16.place(x=0, y=208)
-b_17 = Button(frame_corpo,command=lambda: entrar_valores("."), text=".", width=5, height=2, bg=cor4, font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_17.place(x=118, y=208)
-b_18 = Button(frame_corpo,command=lambda: resultado(), text="=", width=5, height=2, bg=cor5,fg=cor2,  font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
-b_18.place(x=177, y=208)
+def criar_botao(texto, comando, linha, coluna, cor, cor_hover,
+                fg=COR_TEXTO, colspan=1):
+    botao = Button(frame_corpo, text=texto, command=comando, font=FONTE_BOTAO,
+                   bg=cor, fg=fg, activebackground=cor_hover,
+                   activeforeground=fg, relief=FLAT, bd=0, cursor="hand2")
+    botao.grid(row=linha, column=coluna, columnspan=colspan,
+               sticky="nsew", padx=4, pady=4)
+    # efeito ao passar o mouse
+    botao.bind("<Enter>", lambda e: botao.config(bg=cor_hover))
+    botao.bind("<Leave>", lambda e: botao.config(bg=cor))
+    return botao
 
 
+# Linha 0
+criar_botao("C", limpar_valores, 0, 0, COR_FUNC, COR_FUNC_HOVER, colspan=2)
+criar_botao("%", lambda: entrar_valores("%"), 0, 2, COR_FUNC, COR_FUNC_HOVER)
+criar_botao("/", lambda: entrar_valores("/"), 0, 3, COR_OP, COR_OP_HOVER, COR_OP_TEXTO)
 
+# Linha 1
+criar_botao("7", lambda: entrar_valores("7"), 1, 0, COR_NUM, COR_NUM_HOVER)
+criar_botao("8", lambda: entrar_valores("8"), 1, 1, COR_NUM, COR_NUM_HOVER)
+criar_botao("9", lambda: entrar_valores("9"), 1, 2, COR_NUM, COR_NUM_HOVER)
+criar_botao("*", lambda: entrar_valores("*"), 1, 3, COR_OP, COR_OP_HOVER, COR_OP_TEXTO)
 
+# Linha 2
+criar_botao("4", lambda: entrar_valores("4"), 2, 0, COR_NUM, COR_NUM_HOVER)
+criar_botao("5", lambda: entrar_valores("5"), 2, 1, COR_NUM, COR_NUM_HOVER)
+criar_botao("6", lambda: entrar_valores("6"), 2, 2, COR_NUM, COR_NUM_HOVER)
+criar_botao("-", lambda: entrar_valores("-"), 2, 3, COR_OP, COR_OP_HOVER, COR_OP_TEXTO)
+
+# Linha 3
+criar_botao("1", lambda: entrar_valores("1"), 3, 0, COR_NUM, COR_NUM_HOVER)
+criar_botao("2", lambda: entrar_valores("2"), 3, 1, COR_NUM, COR_NUM_HOVER)
+criar_botao("3", lambda: entrar_valores("3"), 3, 2, COR_NUM, COR_NUM_HOVER)
+criar_botao("+", lambda: entrar_valores("+"), 3, 3, COR_OP, COR_OP_HOVER, COR_OP_TEXTO)
+
+# Linha 4
+criar_botao("0", lambda: entrar_valores("0"), 4, 0, COR_NUM, COR_NUM_HOVER, colspan=2)
+criar_botao(".", lambda: entrar_valores("."), 4, 2, COR_NUM, COR_NUM_HOVER)
+criar_botao("=", resultado, 4, 3, COR_IGUAL, COR_IGUAL_HOVER, "#ffffff")
 
 janela.mainloop()
